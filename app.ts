@@ -2,14 +2,23 @@ import { TreeNode } from "./treeNode";
 import { ProbabilityCalculator } from "./calculateProbability";
 import { TreeCreator } from "./creator";
 
-const initNode = new TreeNode(1, 1, 0);
+const run = (desiredHeight, desiredValue) => {
+    const initNode = new TreeNode(1, 1, 0);
 
-const desiredValue = 6;
-const desiredHeight = 12;
+    const treeCreator = new TreeCreator(desiredHeight);
+    const calculator = new ProbabilityCalculator(desiredHeight, desiredValue);
 
-const treeCreator = new TreeCreator(desiredHeight);
-const calculator = new ProbabilityCalculator();
+    treeCreator.createProbabilityTree(initNode);
+    calculator.calculateProbability(initNode);
+    return calculator.p
+}
 
-treeCreator.createProbabilityTree(initNode);
-calculator.calculateProbability(initNode, desiredValue, desiredHeight);
-console.log(calculator.p);
+//set i to increase to a high number
+for(let i = 0; i < 50; i++){
+    const probability = run(i, 6);
+
+    console.log(`After round ${i}, the probability of 6 is ${probability}`)
+    if(probability > 0.99){
+        break;
+    }
+}
