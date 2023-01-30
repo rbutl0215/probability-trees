@@ -1,11 +1,12 @@
 import { TreeNode } from "./treeNode";
 import { ProbabilityCalculator } from "./calculateProbability";
 import { TreeCreator } from "./creator";
+import { nodeMapper } from "./nodeMapper";
 
 const run = (desiredHeight, desiredValue) => {
     const initNode = new TreeNode(1, 1, 0);
 
-    const treeCreator = new TreeCreator(desiredHeight);
+    const treeCreator = new TreeCreator(desiredHeight, nodeMapper());
     const calculator = new ProbabilityCalculator(desiredHeight, desiredValue);
 
     treeCreator.createProbabilityTree(initNode);

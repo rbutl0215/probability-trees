@@ -1,58 +1,42 @@
 import { TreeNode } from "./treeNode";
+import { Node } from "./nodeMapper";
 
 export class TreeCreator {
-
   height: number;
+  nodeMap: Map<number, Node[]>;
 
-  constructor(height: number){
-    this.height = height
+  constructor(height: number, nodeMap: Map<number, Node[]>) {
+    this.height = height;
+    this.nodeMap = nodeMap;
   }
 
   nodeCreator = (treeNode: TreeNode) => {
-    if (treeNode.value === 1) {
-      treeNode.descendants.push(
-        new TreeNode(0.5, 3, treeNode.height + 1),
-        new TreeNode(0.5, 1, treeNode.height + 1)
+    const desiredDescendants = this.nodeMap.get(treeNode.value);
+
+    if (!desiredDescendants) {
+      throw new Error(
+        `There is no mapped value for the descendants of nodes with value ${treeNode.value}. Please update your nodeMap function to include this value.`
       );
     }
-  
-    if (treeNode.value === 3) {
-      treeNode.descendants.push(
-        new TreeNode(0.45, 5, treeNode.height + 1),
-        new TreeNode(0.45, 4, treeNode.height + 1),
-        new TreeNode(0.1, 3, treeNode.height + 1)
-      );
-    }
-  
-    if (treeNode.value === 4) {
-      treeNode.descendants.push(
-        new TreeNode(0.2, 6, treeNode.height + 1),
-        new TreeNode(0.6, 5, treeNode.height + 1),
-        new TreeNode(0.2, 4, treeNode.height + 1)
-      );
-    }
-  
-    if (treeNode.value === 5) {
-      treeNode.descendants.push(
-        new TreeNode(0.5, 6, treeNode.height + 1),
-        new TreeNode(0.5, 5, treeNode.height + 1)
-      );
-    }
-  
-    if (treeNode.value === 6) {
-      treeNode.descendants.push(
-        new TreeNode(1, 6, treeNode.height + 1)
-      );
+
+    treeNode.descendants.push(
+      ...desiredDescendants.map((descendant) => {
+        return new TreeNode(
+          descendant.probability,
+          descendant.value,
+          treeNode.height + 1
+        );
+      })
+    );
+
+  };
+
+  createProbabilityTree = (node: TreeNode) => {
+    if (node.height < this.height) {
+      this.nodeCreator(node);
+      for (let i = 0; i < node.descendants.length; i++) {
+        this.createProbabilityTree(node.descendants[i]);
+      }
     }
   };
-  
-  createProbabilityTree = (node: TreeNode) => {
-      if (node.height < this.height) {
-        this.nodeCreator(node);
-        for (let i = 0; i < node.descendants.length; i++) {
-          this.createProbabilityTree(node.descendants[i]);
-        }
-      }
-    };
 }
-
