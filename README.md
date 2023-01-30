@@ -46,10 +46,6 @@ The code in this repository does two core things:
 1. It can construct a probability tree with n descendants on each node to a specified height (see creator.ts). We use the rules discussed above, but they can easily be replaced in the `nodeCreator` function. The height of the tree in the case of this problem is the number of dinners.
 2. It can calculate the probability for a given event at a particular height in the tree (see calculateProbability.ts)
 
-app.js shows how you might initialize and search for a particular value. After all this, I can happily report the answer is 12, more specifically 12 consecutive dinners of 3 people randomly selected from a group of 6 where 1 person is sick would result in a >99% chance of all 6 contracting the disease assuming 100% chance of transmission from the dinner.
-
-You can use this repo to construct an recursive probability tree and traverse the tree to find the probability of a given event.
-
 ## File Description
 
 ##### treeNode.ts
@@ -71,3 +67,7 @@ Defines the class for ProbabilityCalculator. This class will determine the proba
 ##### app.ts
 
 Here we create a function that can construct a tree to a desired height and calculate the probability of a given event at the desired height. We then run that function in a loop that increases the height of the tree during each execution. Once we reach 0.99 probability of our desired value, we exit the loop. Each execution of the loop logs the current height and the probability of the desired event.
+
+## Results
+
+ After all this, I can happily report the answer is 12, more specifically 12 consecutive dinners of 3 people randomly selected from a group of 6 where 1 person is sick would result in a >99% chance of all 6 contracting the disease assuming 100% chance of transmission from the dinner.
