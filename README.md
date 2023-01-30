@@ -49,3 +49,25 @@ The code in this repository does two core things:
 app.js shows how you might initialize and search for a particular value. After all this, I can happily report the answer is 12, more specifically 12 consecutive dinners of 3 people randomly selected from a group of 6 where 1 person is sick would result in a >99% chance of all 6 contracting the disease assuming 100% chance of transmission from the dinner.
 
 You can use this repo to construct an recursive probability tree and traverse the tree to find the probability of a given event.
+
+## File Description
+
+##### treeNode.ts
+
+Defines the class for TreeNode
+
+##### creator.ts
+
+Defines the class for TreeCreator. This class constructs a probability tree with n nodes based on a specified tree height and a node map passed in at the time of initialization. The node map should be a Map with the type `<number, Node[]>` where `Node` is an object with `value` and `probability`. Another way to think about the map is a dictionary that defines for every possible node what the descendants of that node should be.
+
+##### nodeMapper.ts
+
+Defines the node map to be used for the specific problem described above. You can replace this function to define your own probability tree structure.
+
+##### calculateProbability.ts
+
+Defines the class for ProbabilityCalculator. This class will determine the probability of a given event at a specified height of a tree as defined by the TreeNode class in treeNode.ts. The calculateProbability function can be called on any node in the tree, but it is will usually be called on the initial node of the tree.
+
+##### app.ts
+
+Here we create a function that can construct a tree to a desired height and calculate the probability of a given event at the desired height. We then run that function in a loop that increases the height of the tree during each execution. Once we reach 0.99 probability of our desired value, we exit the loop. Each execution of the loop logs the current height and the probability of the desired event.
